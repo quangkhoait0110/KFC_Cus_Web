@@ -1,0 +1,218 @@
+﻿@model IEnumerable<Project_KFC_WEB.Models.account>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/skins/_all-skins.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--css custom page-->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--end css custom page-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- Left side column. contains the logo and sidebar -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    @*<section class="content-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                    </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        Success alert preview. This alert is dismissable.
+                    </div>
+                </div>
+            </div>
+        </section>*@
+    <!-- Main content -->
+
+    <div class="content">
+        <div style="width: 100%; display: flex; justify-content: center">
+
+            <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; font-size: 26px">Quản lí tài khoản</span>
+        </div>
+        @using (Html.BeginForm("Index", "Accounts", FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
+        {
+            <div style="display: flex; column-gap: 30px">
+                <div class="dropdown" style="position: relative">
+                    <input type="hidden" name="selectedOption" id="selectedOption" value="">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Chọn phương thức tìm kiếm
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a onclick="selectOption('Theo tên đăng nhập')" style="cursor: pointer">Theo tên đăng nhập</a></li>
+                        <li><a onclick="selectOption('Theo tên người dùng')" style="cursor: pointer">Theo tên người dùng</a></li>
+                        <li><a onclick="selectOption('Theo số điện thoại')" style="cursor: pointer">Theo số điện thoại</a></li>
+                        <li><a onclick="selectOption('Theo địa chỉ')" style="cursor: pointer">Theo địa chỉ</a></li>
+                        <li role="separator" class="divider"></li>
+                    </ul>
+                </div>
+                <a href="@Url.Action("Index", "Accounts", new {  page = 1, isReset = true})" class="btn btn-info btn-reset" style="color: #fff !important; background-color: #5bc0de !important; border-color: #46b8da !important; ">Tải lại tài khoản</a>
+            </div>
+
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập ở đây...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box ">
+                    <div class="box-header">
+                        <a href="@Url.Action("Create")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tạo tài khoản</a>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @*@Html.DisplayNameFor(model => model.userName)*@
+                                        Tên đăng nhập
+                                    </th>
+                                    <th>
+                                       @* @Html.DisplayNameFor(model => model.passWord)*@
+                                        Mật khẩu
+                                    </th>
+                                    <th>
+                                        @*@Html.DisplayNameFor(model => model.name)*@
+                                        Tên người dùng
+                                    </th>
+                                    <th>
+                                        @*@Html.DisplayNameFor(model => model.address)*@
+                                        Địa chỉ
+                                    </th>
+                                    <th>
+                                       @* @Html.DisplayNameFor(model => model.phone)*@
+                                        Số điện thoại
+                                    </th>
+                                    <th>Chức năng </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.userName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.passWord)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.address)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.phone)
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Accounts", new {  userName=item.userName})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                                    <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Accounts", new {  userName=item.userName})"><i class="fa fa-trash"></i>Xóa</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                     }
+                                     else
+                                     {
+                                        <div class="text-danger ">Không có dữ liệu</div>
+                                     }
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            @* page  *@
+            <div style="background-color: white; display: flex; justify-content: space-between; height: 40px; align-items: center; padding: 20px; border-radius: 4px;">
+                <div style="display:flex; column-gap: 10px">
+                    <a href="@Url.Action("Index", "Accounts", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+                    <a href="@Url.Action("Index", "Accounts", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+                    <a href="@Url.Action("Index", "Accounts", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
+                </div>
+                <ul style="display: flex; column-gap: 10px; align-items: center">
+                    <span style="margin-top: 5px; color: red; font-size: large; font-weight: 600 ">Trang: </span>
+                    @{
+                        for (int i = 1; i <= Convert.ToInt32(ViewBag.totalPages); i++)
+                        {
+                            if (i == Convert.ToInt32(ViewBag.currentPage))
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a style="color: red; font-size: large">@i</a></li>
+                            }
+                            else
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a href="@Url.Action("Index", "Accounts", new {  page = i})" style="color: #333; font-size: large">@i</a></li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div><!-- ./wrapper -->
+        <!-- jQuery 2.1.4 -->
+        <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
+        <!-- SlimScroll -->
+        <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+
+        <!--script custom page-->
+        <!-- DataTables -->
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
+        <!-- page script -->
+        <!--end script custom page-->
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            function selectOption(option) {
+                document.getElementById('selectedOption').value = option;
+                document.getElementById('dropdownMenu1').innerHTML = option + ' <span class="caret"></span>';
+            }
+        </script>
+    </body>
+</html>

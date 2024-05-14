@@ -1,0 +1,71 @@
+﻿@model Project_KFC_WEB.Models.food
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <br />
+    <h2 class="box-title" style="font-size: 24px; padding-left: 10px; font-weight: 700; color: green; ">Bạn có chắc chắn muốn xóa món ăn này ?</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.foodCategory.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.foodCategory.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            <img src="~/Upload/@Model.image" style="width: 200px; height:100%" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.discount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="box-tools pull-left">
+            <a class="btn btn-default btn-sm" style="margin-left: 10px" href="@Url.Action("Index", "Foods", new { page = (int)Session["currentPageFood"] })"><i class="fa fa-solid fa-arrow-left"></i> Quay lại</a>
+            <button class="btn btn-sm alert-danger" type="submit" style="margin-left:10px"><i class="fa fa-check"></i> xóa thức ăn</button>
+        </div>
+    }
+</div>

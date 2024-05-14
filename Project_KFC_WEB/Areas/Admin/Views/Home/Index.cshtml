@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="width: 100%; padding-right: 30px; padding-left: 30px;">
+    <div style="height: 100px"></div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@ViewBag.countCart</h3>
+                    <p>Tổng số hóa đơn</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="@Url.Action("Index", "Carts")" class="small-box-footer">Xem chi tiết <i class="fa fa-arrow-circle-right" style="margin-left: 10px"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>@ViewBag.countFoodCategory</h3>
+                    <p>Tống số lọai món ăn</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="@Url.Action("Index", "FoodCategories")" class="small-box-footer">Xem chi tiết <i class="fa fa-arrow-circle-right" style="margin-left: 10px"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@ViewBag.countUser</h3>
+                    <p>Tống số người dùng</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="@Url.Action("Index", "Accounts")" class="small-box-footer">Xem chi tiết <i class="fa fa-arrow-circle-right" style="margin-left: 10px"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>@ViewBag.countFood</h3>
+                    <p>Tống số món ăn</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="@Url.Action("Index", "Foods")" class="small-box-footer">Xem chi tiết <i class="fa fa-arrow-circle-right" style="margin-left: 10px"></i></a>
+            </div>
+        </div><!-- ./col -->
+    </div>
+</div>

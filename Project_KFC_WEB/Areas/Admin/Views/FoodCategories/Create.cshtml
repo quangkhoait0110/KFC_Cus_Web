@@ -1,0 +1,65 @@
+﻿@model Project_KFC_WEB.Models.foodCategory
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "FoodCategories", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal box-header with-border">
+        <div class="box-header with-border">
+            <h2 class="box-title" style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Tạo mới loại món ăn</h2>
+            <div class="box-tools pull-right">
+                <button class="btn btn-info btn-sm" type="submit"><i class="fa fa-check"></i> Tạo mới</button>
+                <button class="btn btn-default btn-sm" type="reset"><i class="fa fa-refresh"></i> Làm mới dữ liệu</button>
+            </div>
+        </div>
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="imageFile" name="imageFile" class="form-control" onchange="previewImage(this);" />
+                <img id="imagePreview" src="#" alt="Vui lòng chọn ảnh" style="max-width: 100%; max-height: 150px; margin-top: 10px;" />
+                <button type="button" id="btnRemoveImage" class="btn btn-danger btn-sm" style="margin-top: 10px; display: none;" onclick="removeImage();"><i class="fa fa-trash"></i> Xóa ảnh</button>
+                @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a class="btn btn-default btn-sm" style="margin-left: 10px; margin-top: 10px" href="@Url.Action("Index", "FoodCategories")"><i class="fa fa-solid fa-arrow-left"></i> Quay lại</a>
+</div>
+
+<script>
+    function previewImage(input) {
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imagePreview').attr('src', e.target.result);
+            $('#imagePreview').show();
+            $('#btnRemoveImage').show();
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+        $('#imagePreview').attr('src', '#');
+        $('#imagePreview').hide();
+        $('#btnRemoveImage').hide();
+        $('#imageFile').val('');
+    }
+</script>

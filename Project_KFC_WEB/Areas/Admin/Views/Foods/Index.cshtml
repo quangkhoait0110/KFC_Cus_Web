@@ -1,0 +1,281 @@
+﻿@model IEnumerable<Project_KFC_WEB.Models.food>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/skins/_all-skins.min.css">
+
+    <!--css custom page-->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--end css custom page-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style>
+    /* Add custom CSS for styling */
+    .btn-check:checked + .btn-primary, .btn-primary.active {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+</style>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- Left side column. contains the logo and sidebar -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    @*<section class="content-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                    </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        Success alert preview. This alert is dismissable.
+                    </div>
+                </div>
+            </div>
+        </section>*@
+    <!-- Main content -->
+    <section class="content">
+        <div style="width: 100%; display: flex; justify-content: center">
+
+            <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; font-size: 26px">Quản lí món ăn</span>
+        </div>
+        @using (Html.BeginForm("Index", "Foods", FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
+        {
+    <div style="display:flex; column-gap: 30px">
+        <div class="dropdown" style="position: relative">
+            <input type="hidden" name="selectedCategoryOption" id="selectedCategoryOption" value="">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Loại thức ăn muốn tìm
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="max-height: 100px; overflow-y: auto;">
+                @{
+                    foreach (var category in ViewBag.foodCategories)
+                    {
+                        <li><a onclick="selectOption('@category.name')" style="cursor: pointer">@category.name</a></li>
+                    }
+                }
+                <li role="separator" class="divider"></li>
+            </ul>
+        </div>
+        <div class="dropdown" style="position: relative">
+            <input type="hidden" name="selectedOptionPrice" id="selectedPriceOption" value="">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Chọn mức giá
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" style="max-height: 100px; overflow-y: auto;">
+                <li><a onclick="selectOptionPrice('0 - 9.000')" style="cursor: pointer">0 - 9.000</a></li>
+                <li><a onclick="selectOptionPrice('10.000 - 49.000')" style="cursor: pointer">10.000 - 49.999</a></li>
+                <li><a onclick="selectOptionPrice('50.000 - 99.000')" style="cursor: pointer">50.000 - 99.999</a></li>
+                <li><a onclick="selectOptionPrice('100.000 - 499.000')" style="cursor: pointer">100.000 - 499.999</a></li>
+                <li><a onclick="selectOptionPrice('500.000 - 1.000.000')" style="cursor: pointer">500.000 - 999.999</a></li>
+                <li><a onclick="selectOptionPrice('1.000.000 trở lên')" style="cursor: pointer">1.000.000 trở lên</a></li>
+                <li role="separator" class="divider"></li>
+            </ul>
+        </div>
+        <div>
+            <input type="checkbox" class="btn-check" id="btn-check" autocomplete="off" name="checkSale" hidden>
+            <label class="btn btn-primary" for="btn-check">Chọn sản phẩm có giảm giá</label>
+        </div>
+        <a href="@Url.Action("Index", "Foods", new {  page = 1, isReset = true})" class="btn btn-info btn-reset" style="color: #fff !important; background-color: #5bc0de !important; border-color: #46b8da !important; ">Tải lại thức ăn</a>
+
+    </div>
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập tên món ăn muốn tìm...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box ">
+                    <div class="box-header">
+                        <a href="@Url.Action("Create")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tạo món ăn</a>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.id)
+                                    </th>
+                                    <th>
+                                        Loại món
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.image)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.price)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.discount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.timeSellStart)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.timeSellEnd)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.foodCategory.name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            <td>
+                                                <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.discount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.timeSellStart)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.timeSellEnd)
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Foods", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                                <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Foods", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="text-danger ">Không có dữ liệu</div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            @* page *@
+            <div style="background-color: white; display: flex; justify-content: space-between; height: 40px; align-items: center; padding: 20px; border-radius: 4px;">
+                <div style="display:flex; column-gap: 10px">
+                    <a href="@Url.Action("Index", "Foods", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+                    <a href="@Url.Action("Index", "Foods", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+                    <a href="@Url.Action("Index", "Foods", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
+                </div>
+                <ul style="display: flex; column-gap: 10px; align-items: center">
+                    <span style="margin-top: 5px; color: red; font-size: large; font-weight: 600 ">Trang: </span>
+                    @{
+                        for (int i = 1; i <= Convert.ToInt32(ViewBag.totalPages); i++)
+                        {
+                            if (i == Convert.ToInt32(ViewBag.currentPage))
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a style="color: red; font-size: large">@i</a></li>
+                            }
+                            else
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a href="@Url.Action("Index", "Foods", new {  page = i})" style="color: #333; font-size: large">@i</a></li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+            </div><!-- ./wrapper -->
+            <!-- jQuery 2.1.4 -->
+            <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+            <!-- Bootstrap 3.3.5 -->
+            <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
+            <!-- SlimScroll -->
+            <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
+            <!-- AdminLTE App -->
+            <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
+            <!-- AdminLTE for demo purposes -->
+            <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+
+            <!--script custom page-->
+            <!-- DataTables -->
+            <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script>
+                function selectOption(option) {
+                    document.getElementById('selectedCategoryOption').value = option;
+                    document.getElementById('dropdownMenu1').innerHTML = option + ' <span class="caret"></span>';
+
+                }
+                function selectOptionPrice(option) {
+                    document.getElementById('selectedPriceOption').value = option;
+                    document.getElementById('dropdownMenu2').innerHTML = option + ' <span class="caret"></span>';
+                }
+
+                $(document).ready(function () {
+                    $('.btn-check').change(function () {
+                        if ($(this).is(':checked')) {
+                            $('.btn-primary').addClass('active');
+                        } else {
+                            $('.btn-primary').removeClass('active');
+                        }
+                    });
+                });
+            </script>
+            <!-- page script -->
+            <!--end script custom page-->
+    </body>
+</html>

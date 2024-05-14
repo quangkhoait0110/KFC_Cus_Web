@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Đặt Gà Rán KFC, Giao Hàng Tận Nơi | KFC Việt Nam</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="~/Data/fonts/icomoon/style.css">
+    <link rel="shortcut icon" href="https://static.kfcvietnam.com.vn/images/web/kfc-logo.svg?v=5.0" />
+
+    <link rel="stylesheet" href="~/Data/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Data/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Data/css/jquery-ui.css">
+    <link rel="stylesheet" href="~/Data/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Data/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Data/css/aos.css">
+
+    <link rel="stylesheet" href="~/Data/css/style.css">
+
+</head>
+<style>
+    .my-top {
+        display: inline-block;
+        color: #000 !important;
+        text-decoration: none;
+    }
+
+    .my-top::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #000;
+        transition: width .3s;
+    }
+
+    .my-top:hover::after {
+        width: 100%;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
+    }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b30000;
+        }
+</style>
+<body style="overflow-x: hidden">
+
+    <div class="site-wrap">
+
+
+        <div class="site-navbar bg-white py-2 border-bottom border-dark">
+
+            <div class="search-wrap">
+                <div class="container">
+                    <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                    <form action="#" method="post">
+                        <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+                    </form>
+                </div>
+            </div>
+            @* header *@
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="logo">
+                        <div class="site-logo">
+                            <a href="@Url.Action("Index", "Home")" class="js-logo-clone"> <img src="https://static.kfcvietnam.com.vn/images/web/kfc-logo.svg?v=5.0" class="img-circle" alt="User Image" style="height:80px; margin-right: 10px; margin-bottom: 5px " /></a>
+                        </div>
+                    </div>
+                    <div class="main-nav d-none d-lg-block">
+                        <nav class="site-navigation text-right text-md-center" role="navigation">
+                            <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                <li>
+                                    <a href="@Url.Action("Menu", "Home")" class="my-top header-item" style="font-weight: 700; font-size: 20px; cursor: pointer;">THỰC ĐƠN</a>
+                                </li>
+                                <li><a href="@Url.Action("Menu", "Home", new { index = 1})" class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">MÓN MỚI</a></li>
+                                <li><a href="@Url.Action("Menu", "Home")" class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">VỀ NHÀ HÀNG</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="icons" style="display: flex; align-items: center; column-gap: 20px">
+                        <a class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+                        <a href="@Url.Action("Index", "Login")" class="icons-btn d-inline-block"><span class="icon-user" style="font-size: 30px;"></span></a>
+                        <a href="@Url.Action("Cart", "Home")" class="icons-btn d-inline-block bag" style="position: relative">
+                            <img style="height:50px; width: 50px; " src="~/Data/images/cart.png" />
+                            @if (ViewBag.quantityCart > 0)
+                            {<span style="position: absolute; top: -17px; right: -12px; color: red; font-size: 20px; font-weight: 700; border-radius: 100%; ">@ViewBag.quantityCart</span>
+                            }
+                        </a>
+                        <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="">
+                @RenderBody()
+            </div>
+        </div>
+        
+    </div>
+    <footer style="padding-bottom: 50px; background-color: #000" class="site-footer custom-border-top">
+        <div>
+            <div style="display: flex; justify-content: space-around">
+                <div style="display: flex; flex-direction: column ">
+                    <div style="font-size: 20px; font-weight: 600; color: white">Danh mục món ăn</div>
+                    @for (int i = 0; i < ViewBag.Length; i++)
+                    {
+                        <a href="@Url.Action("Menu", "Home", new { index = i})" style="font-size: 16px; font-weight: 500 !important; color: #8c92a0 !important; cursor: pointer; display: block">@ViewBag.foodCategories[i].name</a>
+                    }
+                </div>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Về KFC</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Câu chuyện của chúng tôi</div>
+                    <div style="font-size: 16px; font-weight: 500;">Tin khuyến mãi </div>
+                    <div style="font-size: 16px; font-weight: 500;">Tin tức KFC</div>
+                    <div style="font-size: 16px; font-weight: 500;">Tuyển dụng KFC</div>
+                </div>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Liên hệ KFC</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Theo dõi đơn hàng</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Hệ thống nhà hàng</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Liên hệ KFC</div>
+                </div>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Chính sách</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách hoạt động</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách và quy định</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách và bảo mật thông tin</div>
+                </div>
+            </div>
+            <div class="row pt-5 mt-5 text-center">
+                <div class="col-md-12">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved 
+                        
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Data/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Data/js/jquery-ui.js"></script>
+    <script src="~/Data/js/popper.min.js"></script>
+    <script src="~/Data/js/bootstrap.min.js"></script>
+    <script src="~/Data/js/owl.carousel.min.js"></script>
+    <script src="~/Data/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Data/js/aos.js"></script>
+
+    <script src="~/Data/js/main.js"></script>
+
+</body>
+</html>
